@@ -50,5 +50,3 @@ class App extends React.Component {
 
 export default App;
 
-// //TODO : update APP & List , en faisant l'update directement dans App. et pas dans list
-

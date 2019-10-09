@@ -40,8 +40,10 @@ class Pokemon_sm extends React.Component {
 	      Item: 
 	      	<React.Fragment>
 	      		<div className="filter" style={{ backgroundColor: colorHex }}></div>
-				<div className="picture" style={{ backgroundImage: 'url('+ item.sprites['front_default'] +')'}}></div>
-				<p>{this.props.name}</p>
+	      		<div className="picture">
+					<div className="inner" style={{ backgroundImage: 'url('+ item.sprites['front_default'] +')'}}></div>
+				</div>	
+				<div className="name-placeholder">{this.props.name}</div>
 	    	</React.Fragment>
 	    });
 	  } catch (err) {
