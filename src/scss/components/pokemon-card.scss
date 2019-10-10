@@ -1,0 +1,128 @@
+.pokemon-card {
+	position: absolute;
+	background-color: cornsilk;
+	top: 5%;
+	left: 10%;
+	width: 35%;
+	border-radius: 10px;
+	padding: 20px;
+	.name-placeholder {
+		position: absolute;
+		top: -3%;
+		right: 2%;
+		background-color: cornsilk;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 15px;
+		padding-left: 15px;
+		padding-right: 15px;
+		border-radius: 7px 7px 0px 0px;
+	}
+	.pictures {
+		display: flex;
+		text-align: center;
+		font-weight: bold;
+		.picture {
+			height: 200px;
+			width: 33%;
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+			position: relative;
+			border: 7px ridge antiquewhite;
+			&.front {
+				&::before {
+					content:'Front';
+					position: absolute;
+					width: 100%;
+					height: 20px;
+					top: 0;
+					left: 0;
+					text-transform: uppercase;
+					font-size: 12px;
+				}
+			}
+			&.back {
+				&::before {
+					content:'Back';
+					position: absolute;
+					width: 100%;
+					height: 20px;
+					top: 0;
+					left: 0;
+					text-transform: uppercase;
+					font-size: 12px;
+				}
+			}
+			&.shiny {
+				&::before {
+					content:'Shiny';
+					position: absolute;
+					width: 100%;
+					height: 20px;
+					top: 0;
+					left: 0;
+					text-transform: uppercase;
+					font-size: 12px;
+				}
+			}
+		}
+	}
+	.weight-height {
+		display: flex;
+		text-align: center;
+		margin-bottom: 20px;
+		margin-top: 20px;
+		> * {
+			width: 50%;
+			span {
+				font-weight: bold;
+			}
+		}
+	}
+	.stats-moves {
+		display: flex;
+		> * {
+			width: 50%;
+		}
+		.moves {
+			padding: 0;
+			margin: 0;
+			overflow: scroll;
+			height: 200px;
+			li {
+				height: 50px;
+				border-radius: 50px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border: 3px ridge antiquewhite;
+				text-transform: uppercase;
+				font-weight: bold;
+				font-size: 14px;
+				&:nth-child(2n+1) {
+					background-color: moccasin;
+				}
+			}
+		}
+	}
+	.types {
+		display: flex;
+		position: absolute;
+		top: -3%;
+		.type-badge {
+			width: 70px;
+			text-align: center;
+			border-radius: 50px;
+			padding: 3px 0px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 14px;
+			border: 2px solid antiquewhite;
+			color: white;
+		}
+	}
+}

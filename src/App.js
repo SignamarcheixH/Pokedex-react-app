@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import Header from './components/Header.js';
 import Listing from './components/Listing.js';
+import Pokemon_card from './components/Pokemon-card';
 
 import './style.css';
 
@@ -37,12 +38,13 @@ class App extends React.Component {
     console.log(this.state);
     return (
       <Router>
-      <div className="App">
-        <Header />
-        <div className="main-container">
-          <Listing list={this.state.pokemon} ok="true"/>
+        <div className="App">
+          <Header />
+          <div className="main-container">
+            <Route exact path="/" render={(props) => <Listing {...props} list={this.state.pokemon} />} />
+            <Route exact path="/pokeinfo/:pokemonName" render={(props) => <Pokemon_card />} />   
+          </div>
         </div>
-      </div>
       </Router>
     );
   }

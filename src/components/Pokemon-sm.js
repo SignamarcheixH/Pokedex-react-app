@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 
 class Pokemon_sm extends React.Component {
 	constructor(props) {
@@ -38,13 +40,13 @@ class Pokemon_sm extends React.Component {
 	    const colorHex = this.state[mainType[0].type.name];
 	    this.setState({
 	      Item: 
-	      	<React.Fragment>
+	      	<div className="pokemon-small-card">
 	      		<div className="filter" style={{ backgroundColor: colorHex }}></div>
 	      		<div className="picture">
 					<div className="inner" style={{ backgroundImage: 'url('+ item.sprites['front_default'] +')'}}></div>
 				</div>	
 				<div className="name-placeholder">{this.props.name}</div>
-	    	</React.Fragment>
+	    	</div>
 	    });
 	  } catch (err) {
 	    console.log(err);
@@ -52,7 +54,7 @@ class Pokemon_sm extends React.Component {
 	}
 	
 	render() {
-		return (<div className="pokemon-small-card">{this.state.Item}</div>)
+		return (<Link className="link" to={`/pokeinfo/${this.props.name}`}>{this.state.Item}</Link>)
 	}
 }
 
