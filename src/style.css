@@ -217,6 +217,34 @@
   color: white;
 }
 
+.stats {
+  padding: 0px 30px;
+}
+.stats > * {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.stats .stat-bar {
+  background-color: white;
+  height: 15px;
+  width: 70%;
+  border-radius: 20px;
+}
+.stats .stat-bar .value {
+  background-color: teal;
+  height: 100%;
+  text-align: center;
+  color: transparent;
+  font-weight: initial;
+  font-size: 10px;
+  border-radius: 20px 2px 2px 20px;
+}
+.stats .stat-bar .value:hover {
+  color: black;
+}
+
 .main-container {
   background-image: url("assets/img/background.png");
   background-size: cover;

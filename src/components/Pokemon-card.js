@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Pokemon_stat from './Pokemon-stats';
 
 
 class Pokemon_card extends React.Component {
@@ -39,6 +40,12 @@ class Pokemon_card extends React.Component {
 	  	let pokeInfos = res.data
 	   	const mainType = pokeInfos.types.filter((e) => e.slot === 1)
 	    const colorHex = this.state[mainType[0].type.name];
+	    const pv = pokeInfos.stats.filter((e) => e.stat.name === 'hp')[0];
+	    const attack = pokeInfos.stats.filter((e) => e.stat.name === 'attack')[0];
+	    const defense = pokeInfos.stats.filter((e) => e.stat.name === 'defense')[0];
+	    const speAttack = pokeInfos.stats.filter((e) => e.stat.name === 'special-attack')[0];
+	    const speDefense = pokeInfos.stats.filter((e) => e.stat.name === 'special-defense')[0];
+	    const speed = pokeInfos.stats.filter((e) => e.stat.name === 'speed')[0];
 	    this.setState({
 	      Item: 
 			<div className="pokemon-card" style={{ border: `10px solid ${colorHex}` }}>
@@ -58,7 +65,7 @@ class Pokemon_card extends React.Component {
 							return (<li key={idx}>{d.move.name}</li>)
 						})}
 					</ul>
-					<div className="stats">Coming soon : Stats component </div>
+					<Pokemon_stat PV={pv.base_stat} attack={attack.base_stat} defense={defense.base_stat} speAttack={speAttack.base_stat} speDefense={speDefense.base_stat} speed={speed.base_stat}/>
 				</div>
 				<div className="types">
 					{pokeInfos.types.map((d,idx) => {
