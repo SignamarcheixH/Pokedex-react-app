@@ -1,12 +1,17 @@
 import React from 'react'
 import axios from 'axios';
 import PokemonStat from './Pokemon-stats';
+import { BrowserRouter as Route, Link } from "react-router-dom";
+
+import pokeIcon from '../assets/icon/pokeball.png';
+
 
 
 class Pokemon_card extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			waiting: false,
 			normal: '#A8A77A' ,
 			fighting: '#C22E28',
 			flying: '#A98FF3',
@@ -30,8 +35,66 @@ class Pokemon_card extends React.Component {
 		}
 	}
 	componentDidMount() {
+		console.log('here')
   		this.fetchPokemonFromUrl();
+  		this.fetchEvolutionChain();
 	}
+
+	componentDidUpdate() {
+		console.log(this.state)
+		//this.fetchPokemonFromUrl();
+		//this.fetchEvolutionChain();
+	}
+
+	fetchEvolutionChain = async() => {
+		try {
+			let pokeName = window.location.pathname.split('/').pop();
+			let res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokeName}`)
+	  		let pokeInfos = res.data
+	  		let resa = await axios.get(pokeInfos.species.url)
+	  		let chain = await axios.get(resa.data['evolution_chain'].url);
+	  		let dataaa = chain.data.chain
+	  		let preEvol = [];
+	  		let nextEvol = [];
+	  		let destination = 'prev';
+	  		let keepGoing = true;
+	  		while(keepGoing) {
+	  			console.log(dataaa.species.name);
+				let picture = await axios.get(dataaa.species.url)
+				picture = await axios.get(picture.data.varieties[0].pokemon.url)
+				picture = picture.data.sprites['front_default']
+	  			if(!dataaa['evolves_to'].length) {
+	  				keepGoing= false;
+	  			}
+	  			if(dataaa.species.name === pokeName) {
+	  				destination = 'next';
+	  				dataaa = dataaa['evolves_to'][0] 
+	  				continue;
+	  			}
+	  			if(destination === 'prev') {
+	  				preEvol.push(
+	  					<a key={dataaa.species.name} className="link" href={`/pokeinfo/${dataaa.species.name}`}>
+	  						<div className="evol-badge" style={{ backgroundImage: 'url('+ picture +')' }}></div>
+	  						<div className="name">{ dataaa.species.name }</div>
+	  					</a>)
+	  			} else {
+	  				nextEvol.push(
+						<a key={dataaa.species.name} className="link" href={`/pokeinfo/${dataaa.species.name}`}>
+	  						<div className="evol-badge" style={{ backgroundImage: 'url('+ picture +')' }}></div>
+	  						<div className="name">{ dataaa.species.name }</div>
+	  					</a>)
+	  			}
+	  			dataaa = dataaa['evolves_to'][0]
+	  		}
+	  		this.setState({
+	  			preEvol: preEvol,
+	  			nextEvol: nextEvol
+	  		})
+		} catch (err) {
+			alert(err)
+		}
+	}
+
 	fetchPokemonFromUrl = async() => {
 	  try {
 	  	let pokeName = window.location.pathname.split('/').pop();
@@ -39,6 +102,9 @@ class Pokemon_card extends React.Component {
 	  	let pokeInfos = res.data
 	   	const mainType = pokeInfos.types.filter((e) => e.slot === 1)
 	    const colorHex = this.state[mainType[0].type.name];
+	    this.setState({
+	    	colorHex: colorHex
+	    })
 	    const pv = pokeInfos.stats.filter((e) => e.stat.name === 'hp')[0];
 	    const attack = pokeInfos.stats.filter((e) => e.stat.name === 'attack')[0];
 	    const defense = pokeInfos.stats.filter((e) => e.stat.name === 'defense')[0];
@@ -61,7 +127,10 @@ class Pokemon_card extends React.Component {
 				<div className="stats-moves">
 					<ul className="moves">
 						{pokeInfos.moves.map((d,idx) => {
-							return (<li key={idx}>{d.move.name}</li>)
+							return (<li key={idx}>
+										<img className="poke-icon" alt="poke-icon" src={pokeIcon} />
+										{d.move.name}
+									</li>)
 						})}
 					</ul>
 					<PokemonStat PV={pv.base_stat} attack={attack.base_stat} defense={defense.base_stat} speAttack={speAttack.base_stat} speDefense={speDefense.base_stat} speed={speed.base_stat}/>
@@ -80,7 +149,15 @@ class Pokemon_card extends React.Component {
 	}
 	
 	render() {
-		return (<span>{this.state.Item}</span>)
+		return (<div>
+					{this.state.Item}
+					<div className="pre-evol" style={{ border: `10px solid ${this.state.colorHex}` }}>
+						{this.state.preEvol}
+					</div>
+					<div className="next-evol" style={{ border: `10px solid ${this.state.colorHex}` }}>
+						{this.state.nextEvol}
+					</div>
+				</div>)
 	}
 }
 
