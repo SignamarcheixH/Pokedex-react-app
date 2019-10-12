@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Pokemon_stat from './Pokemon-stats';
+import PokemonStat from './Pokemon-stats';
 
 
 class Pokemon_card extends React.Component {
@@ -65,7 +64,7 @@ class Pokemon_card extends React.Component {
 							return (<li key={idx}>{d.move.name}</li>)
 						})}
 					</ul>
-					<Pokemon_stat PV={pv.base_stat} attack={attack.base_stat} defense={defense.base_stat} speAttack={speAttack.base_stat} speDefense={speDefense.base_stat} speed={speed.base_stat}/>
+					<PokemonStat PV={pv.base_stat} attack={attack.base_stat} defense={defense.base_stat} speAttack={speAttack.base_stat} speDefense={speDefense.base_stat} speed={speed.base_stat}/>
 				</div>
 				<div className="types">
 					{pokeInfos.types.map((d,idx) => {

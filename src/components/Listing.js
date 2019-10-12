@@ -1,15 +1,23 @@
 import React from 'react'
-import Pokemon_sm from './Pokemon-sm.js'
-import axios from 'axios';
+import PokemonSm from './Pokemon-sm.js'
 
 
 class Listing extends React.Component {
+	constructor(props){
+    	super(props)
+    	this.state = {
+    		list: this.props.list
+    	}
+  	}
+	UNSAFE_componentWillReceiveProps({list}) {
+  		this.setState(
+  			{...this.state,list})
+	}
 	render() {
-		console.log(this.state)
 		return (
 			<div className="pokemon-container">
-				{this.props.list.map((d,idx) => {
-					return (<Pokemon_sm key={idx} name={d.name} url={d.url} />)
+				{this.state.list.map((d,idx) => {
+					return (<PokemonSm key={d.name} name={d.name} url={d.url} />)
 				})}
 			</div>	
 		);
