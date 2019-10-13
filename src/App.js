@@ -70,30 +70,32 @@ class App extends React.Component {
   }
   async filterbyStyle(event) {
     let filter = event.target.dataset.value
-    this.resetFilters('generation-badge');
-    let badges = [...document.getElementsByClassName('type-badge')]
-    for (let badge of badges) {
-      badge.classList.remove('active')
-    }
-    event.target.classList.add('active')
-    try {
-      this.setState({
-        waiting: true
-      })
-      let res = await axios.get('https://pokeapi.co/api/v2/type')
-      let typeUrl = res.data.results.filter((el) => el.name === filter)[0].url
-      let x = await axios.get(typeUrl)
-      let pokemon = x.data.pokemon
-      let pokeArray = []
-      for(let i of pokemon) {
-        pokeArray.push(i.pokemon)
+    if(filter) {
+      this.resetFilters('generation-badge');
+      let badges = [...document.getElementsByClassName('type-badge')]
+      for (let badge of badges) {
+        badge.classList.remove('active')
       }
-      this.setState({ 
-        pokemon: pokeArray,
-        pokeRef: pokeArray,
-        waiting: false })
-    } catch (err) {
-      alert(err)
+      event.target.classList.add('active')
+      try {
+        this.setState({
+          waiting: true
+        })
+        let res = await axios.get('https://pokeapi.co/api/v2/type')
+        let typeUrl = res.data.results.filter((el) => el.name === filter)[0].url
+        let x = await axios.get(typeUrl)
+        let pokemon = x.data.pokemon
+        let pokeArray = []
+        for(let i of pokemon) {
+          pokeArray.push(i.pokemon)
+        }
+        this.setState({ 
+          pokemon: pokeArray,
+          pokeRef: pokeArray,
+          waiting: false })
+      } catch (err) {
+        alert(err)
+      }
     }
   }
 
@@ -106,36 +108,39 @@ class App extends React.Component {
 
   async filterbyGeneration(event) {
     let filter = event.target.dataset.value
-    this.resetFilters('type-badge');
-    let badges = [...document.getElementsByClassName('generation-badge')]
-    for (let badge of badges) {
-      badge.classList.remove('active')
-    }
-    event.target.classList.add('active')
-    try {
-      this.setState({
-        waiting: true,
-      })
-      let res = await axios.get('https://pokeapi.co/api/v2/generation')
-      let generationUrl = res.data.results.filter((el) => el.name === filter)[0].url
-      let x = await axios.get(generationUrl)
-      let pokemon = x.data['pokemon_species'].reverse()
-      let pokeArray = []
-      for(let i of pokemon) {
-        let fetch = await axios.get(i.url)
-        let formated = {
-          name: i.name,
-          url: fetch.data.varieties[0].pokemon.url
-        }
-        pokeArray.push(formated)
+    if(filter) {
+      this.resetFilters('type-badge');
+      let badges = [...document.getElementsByClassName('generation-badge')]
+      for (let badge of badges) {
+        badge.classList.remove('active')
       }
-      this.setState({ 
-        pokemon: pokeArray,
-        pokeRef: pokeArray,
-        waiting: false,
-      })
-    } catch (err) {
-      alert(err)
+      event.target.classList.add('active')
+      try {
+        this.setState({
+          waiting: true,
+        })
+        let res = await axios.get('https://pokeapi.co/api/v2/generation')
+        let generationUrl = res.data.results.filter((el) => el.name === filter)[0].url
+        let x = await axios.get(generationUrl)
+        let pokemon = x.data['pokemon_species'].reverse()
+        let pokeArray = []
+        for(let i of pokemon) {
+          let fetch = await axios.get(i.url)
+          let formated = {
+            name: i.name,
+            url: fetch.data.varieties[0].pokemon.url
+          }
+          pokeArray.push(formated)
+        }
+        this.setState({ 
+          pokemon: pokeArray,
+          pokeRef: pokeArray,
+          waiting: false,
+        })
+      } catch (err) {
+        alert(err)
+      }
+      
     }
   }
 
