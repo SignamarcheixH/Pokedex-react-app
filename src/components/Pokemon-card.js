@@ -39,13 +39,6 @@ class Pokemon_card extends React.Component {
   		this.fetchPokemonFromUrl();
   		this.fetchEvolutionChain();
 	}
-
-	componentDidUpdate() {
-		console.log(this.state)
-		//this.fetchPokemonFromUrl();
-		//this.fetchEvolutionChain();
-	}
-
 	fetchEvolutionChain = async() => {
 		try {
 			let pokeName = window.location.pathname.split('/').pop();

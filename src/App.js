@@ -5,6 +5,8 @@ import axios from 'axios';
 import Listing from './components/Listing.js';
 import PokemonCard from './components/Pokemon-card';
 import Filterbar from './components/Filterbar.js';
+import TypeListing from './components/Type-Listing.js'
+
 
 import logo from './assets/img/pokedex-logo.png';
 
@@ -42,8 +44,8 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-        event.preventDefault();
-        window.location = this.state.urlnext;
+    event.preventDefault();
+    window.location = this.state.urlnext;
   }
 
   componentDidMount() {
@@ -65,14 +67,32 @@ class App extends React.Component {
       throw err;
     }
   }
-
+  async filterbyStyle(event) {
+    let filter = event.target.dataset.value
+    try {
+      let res = await axios.get('https://pokeapi.co/api/v2/type')
+      let typeUrl = res.data.results.filter((el) => el.name === filter)[0].url
+      let x = await axios.get(typeUrl)
+      let pokemon = x.data.pokemon
+      let pokeArray = []
+      for(let i of pokemon) {
+        pokeArray.push(i.pokemon)
+      }
+      this.setState({ 
+        pokemon: pokeArray,
+        pokeRef: pokeArray })
+    } catch (err) {
+      alert(err)
+    }
+  }
 
   render() {
     return (
       <Router>
         <div className="App">
           <div className="main-container">
-            <img className="logo" src={logo} alt="logo pokedex"/>
+            <a href="/home"><img className="logo" src={logo} alt="logo pokedex"/></a>
+            <Route exact path="/home" render={(props) => <TypeListing {...props} handleClick={ev => this.filterbyStyle(ev)} />} />
             { !this.state.waiting ? <Route exact path="/home" render={(props) => <Filterbar {...props} handleChange={this.handleChange} handleSubmit={ev => this.handleSubmit(ev)} /> } /> : '' }
             { !this.state.waiting ? <Route exact path="/home" render={(props) => <Listing {...props} list={this.state.pokemon} />} /> : <div className="lds-ring"><div></div><div></div><div></div><div></div></div> }
             <Route exact path="/pokeinfo/:pokemonName" render={(props) => <PokemonCard />} />   

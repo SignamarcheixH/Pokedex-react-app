@@ -1,7 +1,6 @@
 import React from 'react'
 import PokemonSm from './Pokemon-sm.js'
 
-
 class Listing extends React.Component {
 	constructor(props){
     	super(props)
@@ -12,11 +11,13 @@ class Listing extends React.Component {
 	UNSAFE_componentWillReceiveProps({list}) {
   		this.setState(
   			{...this.state,list})
+		//console.log(this.state)
 	}
 	render() {
 		return (
 			<div className="pokemon-container">
 				{this.state.list.map((d,idx) => {
+					//console.log(d)
 					return (<PokemonSm key={d.name} name={d.name} url={d.url} />)
 				})}
 			</div>	
