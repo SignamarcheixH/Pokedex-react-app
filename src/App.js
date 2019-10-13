@@ -6,6 +6,7 @@ import Listing from './components/Listing.js';
 import PokemonCard from './components/Pokemon-card';
 import Filterbar from './components/Filterbar.js';
 import TypeListing from './components/Type-Listing.js'
+import GenerationListing from './components/Generation-Listing.js'
 
 
 import logo from './assets/img/pokedex-logo.png';
@@ -69,7 +70,16 @@ class App extends React.Component {
   }
   async filterbyStyle(event) {
     let filter = event.target.dataset.value
+    this.resetFilters('generation-badge');
+    let badges = [...document.getElementsByClassName('type-badge')]
+    for (let badge of badges) {
+      badge.classList.remove('active')
+    }
+    event.target.classList.add('active')
     try {
+      this.setState({
+        waiting: true
+      })
       let res = await axios.get('https://pokeapi.co/api/v2/type')
       let typeUrl = res.data.results.filter((el) => el.name === filter)[0].url
       let x = await axios.get(typeUrl)
@@ -80,7 +90,50 @@ class App extends React.Component {
       }
       this.setState({ 
         pokemon: pokeArray,
-        pokeRef: pokeArray })
+        pokeRef: pokeArray,
+        waiting: false })
+    } catch (err) {
+      alert(err)
+    }
+  }
+
+  resetFilters(target) {
+    let badges = [...document.getElementsByClassName(target)]
+    for (let badge of badges) {
+      badge.classList.remove('active')
+    }
+  }
+
+  async filterbyGeneration(event) {
+    let filter = event.target.dataset.value
+    this.resetFilters('type-badge');
+    let badges = [...document.getElementsByClassName('generation-badge')]
+    for (let badge of badges) {
+      badge.classList.remove('active')
+    }
+    event.target.classList.add('active')
+    try {
+      this.setState({
+        waiting: true,
+      })
+      let res = await axios.get('https://pokeapi.co/api/v2/generation')
+      let generationUrl = res.data.results.filter((el) => el.name === filter)[0].url
+      let x = await axios.get(generationUrl)
+      let pokemon = x.data['pokemon_species'].reverse()
+      let pokeArray = []
+      for(let i of pokemon) {
+        let fetch = await axios.get(i.url)
+        let formated = {
+          name: i.name,
+          url: fetch.data.varieties[0].pokemon.url
+        }
+        pokeArray.push(formated)
+      }
+      this.setState({ 
+        pokemon: pokeArray,
+        pokeRef: pokeArray,
+        waiting: false,
+      })
     } catch (err) {
       alert(err)
     }
@@ -93,6 +146,7 @@ class App extends React.Component {
           <div className="main-container">
             <a href="/home"><img className="logo" src={logo} alt="logo pokedex"/></a>
             <Route exact path="/home" render={(props) => <TypeListing {...props} handleClick={ev => this.filterbyStyle(ev)} />} />
+            <Route exact path="/home" render={(props) => <GenerationListing {...props} handleClick={ev => this.filterbyGeneration(ev)} />} />
             { !this.state.waiting ? <Route exact path="/home" render={(props) => <Filterbar {...props} handleChange={this.handleChange} handleSubmit={ev => this.handleSubmit(ev)} /> } /> : '' }
             { !this.state.waiting ? <Route exact path="/home" render={(props) => <Listing {...props} list={this.state.pokemon} />} /> : <div className="lds-ring"><div></div><div></div><div></div><div></div></div> }
             <Route exact path="/pokeinfo/:pokemonName" render={(props) => <PokemonCard />} />   

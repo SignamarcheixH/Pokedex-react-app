@@ -17,7 +17,6 @@ class Listing extends React.Component {
 		return (
 			<div className="pokemon-container">
 				{this.state.list.map((d,idx) => {
-					//console.log(d)
 					return (<PokemonSm key={d.name} name={d.name} url={d.url} />)
 				})}
 			</div>	

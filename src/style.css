@@ -417,7 +417,7 @@ form .search-button::after {
   width: 70px;
   text-align: center;
   border-radius: 50px;
-  padding: 3px 0px;
+  padding: 5px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -428,6 +428,40 @@ form .search-button::after {
   border: 2px solid antiquewhite;
   color: white;
   cursor: pointer;
+}
+.types-container .inner .type-badge:not(.active) {
+  opacity: 0.4;
+}
+
+.generation-container {
+  position: absolute;
+  z-index: 100;
+  top: 21%;
+  right: 3%;
+}
+.generation-container .inner {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+.generation-container .inner .generation-badge {
+  width: 70px;
+  text-align: center;
+  border-radius: 50px;
+  padding: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid antiquewhite;
+  color: white;
+  cursor: pointer;
+}
+.generation-container .inner .generation-badge:not(.active) {
+  opacity: 0.4;
 }
 
 .main-container {
