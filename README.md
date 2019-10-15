@@ -1,4 +1,4 @@
-![alt text](./src/assets/repo_picture.png)
+![alt text](./src/assets/img/repo_picture.png)
 
 
 
