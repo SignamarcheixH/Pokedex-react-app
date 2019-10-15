@@ -143,14 +143,14 @@ class Pokemon_card extends React.Component {
 	
 	render() {
 		return (<div>
-					{this.state.Item}
-					<div className="pre-evol" style={{ border: `10px solid ${this.state.colorHex}` }}>
-						{this.state.preEvol}
-					</div>
-					<div className="next-evol" style={{ border: `10px solid ${this.state.colorHex}` }}>
-						{this.state.nextEvol}
-					</div>
-				</div>)
+			{this.state.Item}
+			<div className="pre-evol" style={{ border: `10px solid ${this.state.colorHex}` }}>
+				{this.state.preEvol}
+			</div>
+			<div className="next-evol" style={{ border: `10px solid ${this.state.colorHex}` }}>
+				{this.state.nextEvol}
+			</div>
+		</div>)
 	}
 }
 
