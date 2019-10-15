@@ -5,12 +5,15 @@
 This app is about Pokemon. Created in a M1 exam context, this React-made app offers several filter features listed below.
 
 
+
 ## How to make it work
 
 Runs the app in the development mode by the following command in the main directory : `npm start` .<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+
 ## Features
+
 
 ### Home Page
 
@@ -25,6 +28,8 @@ Typing something in this input will automatically filter Pokemon who contains yo
 Pressing Enter will redirect to the same page with a Query parameter `search` set.
 
 `Access to a pokemon's specific data` : Clicking on a Pokemon card will redirect to `/pokeinfo/{pokemonName}` 
+
+
 
 ### Pokemon page
 
